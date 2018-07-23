@@ -319,6 +319,13 @@ RCT_NOT_IMPLEMENTED(- (instancetype)init)
   RCT_PROFILE_END_EVENT(RCTProfileTagAlways, @"");
 }
 
+-(void)loadCustomBundle:(NSString *)bundleName
+{
+  _bundleURL = [NSBundle.mainBundle URLForResource:bundleName withExtension:@"jsbundle"];
+
+  [self.batchedBridge lazyStart];
+}
+
 - (BOOL)isLoading
 {
   return self.batchedBridge.loading;

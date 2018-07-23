@@ -382,6 +382,29 @@ struct RCTInstanceCallback : public InstanceCallback {
   RCT_PROFILE_END_EVENT(RCTProfileTagAlways, @"");
 }
 
+- (void)lazyStart
+{
+  __weak RCTCxxBridge *weakSelf = self;
+
+  __block NSData *sourceCode;
+  [self loadSource:^(NSError *error, RCTSource *source) {
+    if (error) {
+      [weakSelf handleError:error];
+    }
+
+    sourceCode = source.data;
+    RCTCxxBridge *strongSelf = weakSelf;
+    if (sourceCode) {
+      [strongSelf executeSourceCode:sourceCode sync:NO];
+    }
+  } onProgress:^(RCTLoadingProgress *progressData) {
+#if RCT_DEV && __has_include("RCTDevLoadingView.h")
+    RCTDevLoadingView *loadingView = [weakSelf moduleForClass:[RCTDevLoadingView class]];
+    [loadingView updateProgress:progressData];
+#endif
+  }];
+}
+
 - (void)loadSource:(RCTSourceLoadBlock)_onSourceLoad onProgress:(RCTSourceLoadProgressBlock)onProgress
 {
   NSNotificationCenter *center = [NSNotificationCenter defaultCenter];

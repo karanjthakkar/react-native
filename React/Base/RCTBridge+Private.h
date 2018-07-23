@@ -91,6 +91,12 @@ RCT_EXTERN void RCTVerifyAllModulesExported(NSArray *extraModules);
 - (void)start;
 
 /**
+ * Called on the child bridge to run the executor and start loading
+ * the partial bundle
+ */
+- (void)lazyStart;
+
+/**
  * Used by RCTModuleData to register the module for frame updates after it is
  * lazily initialized.
  */

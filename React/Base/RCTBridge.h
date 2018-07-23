@@ -223,4 +223,9 @@ RCT_EXTERN NSString *RCTBridgeModuleNameForClass(Class bridgeModuleClass);
  */
 - (BOOL)isBatchActive;
 
+/**
+ * Load a custom bundle into an existing bridge instance
+ */
+- (void)loadCustomBundle:(NSString *)bundleName;
+
 @end
