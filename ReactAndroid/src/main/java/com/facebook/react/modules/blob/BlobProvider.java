@@ -12,10 +12,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.bridge.ReactContext;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,7 +29,8 @@ public final class BlobProvider extends ContentProvider {
   }
 
   @Override
-  public @Nullable Cursor query(
+  public @Nullable
+  Cursor query(
       Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
     return null;
   }

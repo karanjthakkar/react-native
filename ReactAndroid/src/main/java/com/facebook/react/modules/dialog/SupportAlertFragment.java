@@ -7,14 +7,13 @@
 
 package com.facebook.react.modules.dialog;
 
-import javax.annotation.Nullable;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import androidx.fragment.app.DialogFragment;
 
-import android.support.v4.app.DialogFragment;
+import javax.annotation.Nullable;
 
 /**
  * {@link AlertFragment} for apps that use the Support FragmentActivity and FragmentManager

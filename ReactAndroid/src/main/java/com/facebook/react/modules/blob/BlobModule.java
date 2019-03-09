@@ -6,15 +6,12 @@
  */
 package com.facebook.react.modules.blob;
 
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.webkit.MimeTypeMap;
-
+import androidx.annotation.Nullable;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -26,6 +23,10 @@ import com.facebook.react.common.MapBuilder;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.modules.network.NetworkingModule;
 import com.facebook.react.modules.websocket.WebSocketModule;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import okio.ByteString;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -39,11 +40,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import okio.ByteString;
 
 @ReactModule(name = BlobModule.NAME)
 public class BlobModule extends ReactContextBaseJavaModule {
@@ -157,7 +153,8 @@ public class BlobModule extends ReactContextBaseJavaModule {
   }
 
   @Override
-  public @Nullable Map<String, Object> getConstants() {
+  public @Nullable
+  Map<String, Object> getConstants() {
     // The application can register BlobProvider as a ContentProvider so that blobs are resolvable.
     // If it does, it needs to tell us what authority was used via this string resource.
     Resources resources = getReactApplicationContext().getResources();

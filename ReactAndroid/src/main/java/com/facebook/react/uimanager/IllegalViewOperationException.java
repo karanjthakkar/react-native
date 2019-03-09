@@ -7,8 +7,8 @@
 
 package com.facebook.react.uimanager;
 
-import android.support.annotation.Nullable;
 import android.view.View;
+import androidx.annotation.Nullable;
 import com.facebook.react.bridge.JSApplicationCausedNativeException;
 
 /**
@@ -16,7 +16,8 @@ import com.facebook.react.bridge.JSApplicationCausedNativeException;
  */
 public class IllegalViewOperationException extends JSApplicationCausedNativeException {
 
-  @Nullable private View mView;
+  @Nullable
+  private View mView;
 
   public IllegalViewOperationException(String msg) {
     super(msg);

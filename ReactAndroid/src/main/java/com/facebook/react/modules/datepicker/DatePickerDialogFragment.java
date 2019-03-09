@@ -7,11 +7,6 @@
 
 package com.facebook.react.modules.datepicker;
 
-import javax.annotation.Nullable;
-
-import java.util.Calendar;
-import java.util.Locale;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -21,8 +16,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
+import androidx.fragment.app.DialogFragment;
+
+import javax.annotation.Nullable;
+import java.util.Calendar;
+import java.util.Locale;
 
 @SuppressLint("ValidFragment")
 public class DatePickerDialogFragment extends DialogFragment {

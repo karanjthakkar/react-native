@@ -6,8 +6,8 @@
  */
 package com.facebook.react.fabric.mounting;
 
-import android.support.annotation.UiThread;
 import android.view.View;
+import androidx.annotation.UiThread;
 import com.facebook.react.common.ClearableSynchronizedPool;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewManager;

@@ -20,9 +20,9 @@ import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
 import android.util.Pair;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import com.facebook.common.logging.FLog;
 import com.facebook.debug.holder.PrinterHolder;
 import com.facebook.debug.tags.ReactDebugOverlayTags;
@@ -148,7 +148,8 @@ public class DevSupportManagerImpl implements
 
   private InspectorPackagerConnection.BundleStatus mBundleStatus;
 
-  private @Nullable Map<String, RequestHandler> mCustomPackagerCommandHandlers;
+  private @Nullable
+  Map<String, RequestHandler> mCustomPackagerCommandHandlers;
 
   private static class JscProfileTask extends AsyncTask<String, Void, Void> {
     private static final MediaType JSON =

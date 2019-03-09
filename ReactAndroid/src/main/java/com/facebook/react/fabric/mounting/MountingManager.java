@@ -7,12 +7,12 @@
 package com.facebook.react.fabric.mounting;
 
 import android.content.Context;
-import android.support.annotation.AnyThread;
-import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import androidx.annotation.AnyThread;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import com.facebook.react.fabric.FabricUIManager;
 import com.facebook.react.fabric.jsi.EventEmitterWrapper;
 import com.facebook.react.fabric.mounting.mountitems.MountItem;
@@ -312,7 +312,8 @@ public class MountingManager {
    * #mTagToViewState}, and they should be updated in the same thread.
    */
   private static class ViewState {
-    @Nullable final View mView;
+    @Nullable
+    final View mView;
     final int mReactTag;
     final boolean mIsRoot;
     @Nullable final ViewManager mViewManager;

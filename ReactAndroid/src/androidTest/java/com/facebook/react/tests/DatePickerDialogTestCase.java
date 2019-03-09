@@ -13,8 +13,8 @@ import java.util.List;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
+import androidx.core.app.DialogFragment;
+import androidx.core.app.Fragment;
 import android.widget.DatePicker;
 
 import com.facebook.react.bridge.BaseJavaModule;

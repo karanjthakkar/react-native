@@ -10,8 +10,7 @@ package com.facebook.react.views.swiperefresh;
 import static com.facebook.react.views.swiperefresh.SwipeRefreshLayoutManager.REACT_CLASS;
 
 import android.graphics.Color;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.module.annotations.ReactModule;
@@ -20,7 +19,7 @@ import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.ViewProps;
 import com.facebook.react.uimanager.annotations.ReactProp;
-import com.facebook.react.uimanager.events.EventDispatcher;
+
 import java.util.Map;
 import javax.annotation.Nullable;
 
@@ -86,7 +85,7 @@ public class SwipeRefreshLayoutManager extends ViewGroupManager<ReactSwipeRefres
       final ThemedReactContext reactContext,
       final ReactSwipeRefreshLayout view) {
     view.setOnRefreshListener(
-        new OnRefreshListener() {
+        new SwipeRefreshLayout.OnRefreshListener() {
           @Override
           public void onRefresh() {
             reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher()

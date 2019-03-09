@@ -12,7 +12,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import com.facebook.common.logging.FLog;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -24,8 +24,9 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.module.annotations.ReactModule;
-import java.util.Map;
+
 import javax.annotation.Nullable;
+import java.util.Map;
 
 @ReactModule(name = DialogModule.NAME)
 public class DialogModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
@@ -73,7 +74,7 @@ public class DialogModule extends ReactContextBaseJavaModule implements Lifecycl
 
     // Exactly one of the two is null
     private final @Nullable android.app.FragmentManager mFragmentManager;
-    private final @Nullable android.support.v4.app.FragmentManager mSupportFragmentManager;
+    private final @Nullable androidx.fragment.app.FragmentManager mSupportFragmentManager;
 
     private @Nullable Object mFragmentToShow;
 
@@ -81,7 +82,7 @@ public class DialogModule extends ReactContextBaseJavaModule implements Lifecycl
       return mSupportFragmentManager != null;
     }
 
-    public FragmentManagerHelper(android.support.v4.app.FragmentManager supportFragmentManager) {
+    public FragmentManagerHelper(androidx.fragment.app.FragmentManager supportFragmentManager) {
       mFragmentManager = null;
       mSupportFragmentManager = supportFragmentManager;
     }
