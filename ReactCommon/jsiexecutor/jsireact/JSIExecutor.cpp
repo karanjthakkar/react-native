@@ -58,13 +58,15 @@ JSIExecutor::JSIExecutor(
     std::shared_ptr<ExecutorDelegate> delegate,
     Logger logger,
     const JSIScopedTimeoutInvoker& scopedTimeoutInvoker,
-    RuntimeInstaller runtimeInstaller)
+    RuntimeInstaller runtimeInstaller,
+    ReactMarker::LogTaggedMarker logTaggedMarker)
     : runtime_(runtime),
       delegate_(delegate),
-      nativeModules_(delegate ? delegate->getModuleRegistry() : nullptr),
+      nativeModules_(delegate ? delegate->getModuleRegistry() : nullptr, logTaggedMarker),
       logger_(logger),
       scopedTimeoutInvoker_(scopedTimeoutInvoker),
-      runtimeInstaller_(runtimeInstaller) {
+      runtimeInstaller_(runtimeInstaller),
+      logTaggedMarker_(logTaggedMarker) {
   runtime_->global().setProperty(
       *runtime, "__jsiExecutorDescription", runtime->description());
 }
@@ -144,18 +146,18 @@ void JSIExecutor::loadApplicationScript(
     runtimeInstaller_(*runtime_);
   }
 
-  bool hasLogger(ReactMarker::logTaggedMarker);
+  bool hasLogger(logTaggedMarker_);
   std::string scriptName = simpleBasename(sourceURL);
   if (hasLogger) {
-    ReactMarker::logTaggedMarker(
+    logTaggedMarker_(
         ReactMarker::RUN_JS_BUNDLE_START, scriptName.c_str());
   }
   runtime_->evaluateJavaScript(
       std::make_unique<BigStringBuffer>(std::move(script)), sourceURL);
   flush();
   if (hasLogger) {
-    ReactMarker::logMarker(ReactMarker::CREATE_REACT_CONTEXT_STOP);
-    ReactMarker::logTaggedMarker(
+    logTaggedMarker_(ReactMarker::CREATE_REACT_CONTEXT_STOP, nullptr);
+    logTaggedMarker_(
         ReactMarker::RUN_JS_BUNDLE_STOP, scriptName.c_str());
   }
 }
@@ -182,7 +184,7 @@ void JSIExecutor::registerBundle(
     uint32_t bundleId,
     const std::string& bundlePath) {
   const auto tag = folly::to<std::string>(bundleId);
-  ReactMarker::logTaggedMarker(
+  logTaggedMarker_(
       ReactMarker::REGISTER_JS_SEGMENT_START, tag.c_str());
   if (bundleRegistry_) {
     bundleRegistry_->registerBundle(bundleId, bundlePath);
@@ -192,7 +194,7 @@ void JSIExecutor::registerBundle(
         std::make_unique<BigStringBuffer>(std::move(script)),
         JSExecutor::getSyntheticBundlePath(bundleId, bundlePath));
   }
-  ReactMarker::logTaggedMarker(
+  logTaggedMarker_(
       ReactMarker::REGISTER_JS_SEGMENT_STOP, tag.c_str());
 }
 

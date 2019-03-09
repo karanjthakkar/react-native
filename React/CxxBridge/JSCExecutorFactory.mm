@@ -25,7 +25,8 @@ std::unique_ptr<JSExecutor> JSCExecutorFactory::createJSExecutor(
         [NSString stringWithUTF8String:message.c_str()]);
     },
     JSIExecutor::defaultTimeoutInvoker,
-    std::move(runtimeInstaller_));
+    std::move(runtimeInstaller_),
+    logTaggedMarker_);
 }
 
 } // namespace react
