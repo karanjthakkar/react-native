@@ -172,7 +172,9 @@ static Class getFallbackClassFromName(const char *name) {
   Class moduleClass;
   if ([_delegate respondsToSelector:@selector(getModuleClassFromName:)]) {
     moduleClass = [_delegate getModuleClassFromName:moduleName];
-  } else {
+  }
+
+  if (!moduleClass) {
     moduleClass = getFallbackClassFromName(moduleName);
   }
 
