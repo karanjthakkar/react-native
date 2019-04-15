@@ -337,6 +337,11 @@ const APIExamples: Array<RNTesterExample> = [
     supportsTVOS: true,
   },
   {
+    key: 'TurboModuleExample',
+    module: require('./TurboModuleExample'),
+    supportsTVOS: false,
+  },
+  {
     key: 'TVEventHandlerExample',
     module: require('./TVEventHandlerExample'),
     supportsTVOS: true,
