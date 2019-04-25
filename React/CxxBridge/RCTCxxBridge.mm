@@ -337,13 +337,13 @@ struct RCTInstanceCallback : public InstanceCallback {
   // Prepare executor factory (shared_ptr for copy into block)
   std::shared_ptr<JSExecutorFactory> executorFactory;
   if (!self.executorClass) {
+    ReactMarker::LogTaggedMarker logTaggedMarker = registerPerformanceLoggerHooks(_performanceLogger);
     if ([self.delegate conformsToProtocol:@protocol(RCTCxxBridgeDelegate)]) {
       id<RCTCxxBridgeDelegate> cxxDelegate = (id<RCTCxxBridgeDelegate>) self.delegate;
-      executorFactory = [cxxDelegate jsExecutorFactoryForBridge:self];
+      executorFactory = [cxxDelegate jsExecutorFactoryForBridge:self logTaggedMarker:logTaggedMarker];
     }
     if (!executorFactory) {
-      executorFactory = std::make_shared<JSCExecutorFactory>(nullptr,
-        registerPerformanceLoggerHooks(_performanceLogger));
+      executorFactory = std::make_shared<JSCExecutorFactory>(nullptr, logTaggedMarker);
     }
   } else {
     id<RCTJavaScriptExecutor> objcExecutor = [self moduleForClass:self.executorClass];
