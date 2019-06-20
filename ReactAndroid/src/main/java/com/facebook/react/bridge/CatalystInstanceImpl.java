@@ -265,6 +265,30 @@ public class CatalystInstanceImpl implements CatalystInstance {
   }
 
   @Override
+  public void runJSBundleLazy(String screenName, ReactApplicationContext context) {
+    Log.d(ReactConstants.TAG, "CatalystInstanceImpl.runJSBundleLazy()");
+    mAcceptCalls = false;
+    // incrementPendingJSCalls();
+    this.loadScriptFromAssets(context.getAssets(), "assets://" + screenName + ".android.bundle", false);
+
+    synchronized (mJSCallsPendingInitLock) {
+
+      // Loading the bundle is queued on the JS thread, but may not have
+      // run yet.  It's safe to set this here, though, since any work it
+      // gates will be queued on the JS thread behind the load.
+      mAcceptCalls = true;
+
+      for (PendingJSCall function : mJSCallsPendingInit) {
+        function.call(this);
+      }
+      mJSCallsPendingInit.clear();
+    }
+
+    // This is registered after JS starts since it makes a JS call
+    Systrace.registerListener(mTraceListener);
+  }
+
+  @Override
   public boolean hasRunJSBundle() {
     synchronized (mJSCallsPendingInitLock) {
       return mJSBundleHasLoaded && mAcceptCalls;
