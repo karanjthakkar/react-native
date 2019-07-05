@@ -260,4 +260,9 @@ RCT_EXTERN void RCTEnableTurboModule(BOOL enabled);
  */
 - (BOOL)isBatchActive;
 
+/**
+ * Load a bundle lazily into an existing bridge instance
+ */
+-(void)lazyLoad:(NSString *)bundleName onCompletion:(void (^)(void))onCompletion;
+
 @end

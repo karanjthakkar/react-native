@@ -88,6 +88,12 @@ RCT_EXTERN void RCTRegisterModule(Class);
 - (void)start;
 
 /**
+ * Called on the child bridge to run the executor and start loading
+ * the partial bundle
+ */
+- (void)startLazyLoading:(void (^)(void))onCompletion;
+
+/**
  * Used by RCTModuleData to register the module for frame updates after it is
  * lazily initialized.
  */

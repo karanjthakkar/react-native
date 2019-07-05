@@ -397,6 +397,24 @@ struct RCTInstanceCallback : public InstanceCallback {
   RCT_PROFILE_END_EVENT(RCTProfileTagAlways, @"");
 }
 
+- (void)startLazyLoading:(void (^)(void))onCompletion
+{
+    __weak RCTCxxBridge *weakSelf = self;
+
+    __block NSData *sourceCode;
+    [self loadSource:^(NSError *error, RCTSource *source) {
+        if (error) {
+            [weakSelf handleError:error];
+        }
+
+        sourceCode = source.data;
+        RCTCxxBridge *strongSelf = weakSelf;
+        if (sourceCode) {
+            [strongSelf executeSourceCode:sourceCode sync:NO onCompletion:onCompletion];
+        }
+    } onProgress:nil];
+}
+
 - (void)loadSource:(RCTSourceLoadBlock)_onSourceLoad onProgress:(RCTSourceLoadProgressBlock)onProgress
 {
   NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -884,7 +902,13 @@ struct RCTInstanceCallback : public InstanceCallback {
   [_displayLink registerModuleForFrameUpdates:module withModuleData:moduleData];
 }
 
-- (void)executeSourceCode:(NSData *)sourceCode sync:(BOOL)sync
+- (void)executeSourceCode:(NSData *)sourceCode sync:(BOOL)sync {
+    [self executeSourceCode:sourceCode sync:sync onCompletion:nil];
+}
+
+- (void)executeSourceCode:(NSData *)sourceCode
+                     sync:(BOOL)sync
+             onCompletion:(void (^)(void))onCompletion
 {
   // This will get called from whatever thread was actually executing JS.
   dispatch_block_t completion = ^{
@@ -896,6 +920,10 @@ struct RCTInstanceCallback : public InstanceCallback {
     // Perform the state update and notification on the main thread, so we can't run into
     // timing issues with RCTRootView
     dispatch_async(dispatch_get_main_queue(), ^{
+      if (onCompletion) {
+        onCompletion();
+      }
+
       [[NSNotificationCenter defaultCenter]
        postNotificationName:RCTJavaScriptDidLoadNotification
        object:self->_parentBridge userInfo:@{@"bridge": self}];
